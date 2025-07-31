@@ -2,18 +2,25 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-# Carregue o seu arquivo .env customizado
-load_dotenv(dotenv_path=Path(__file__).parent.parent / "path.env")
+BASE_DIR = Path(__file__).parent.parent.resolve()
+load_dotenv(dotenv_path=BASE_DIR / "path.env")
 
-BASE_DIR = Path(__file__).parent.resolve()
-
+# Carrega variáveis do .env
 user_env = os.getenv("USER")
 data_file_env = os.getenv("DATA_FILE")
 src_file_env = os.getenv("SRC_FILE")
 
-if user_env is None or data_file_env is None or src_file_env is None:
-    raise EnvironmentError("Variáveis USER, DATA_FILE ou SRC_FILE não definidas no path.env")
+# Verifica se as variáveis obrigatórias existem
+if data_file_env is None or src_file_env is None:
+    raise EnvironmentError("Variáveis DATA_FILE ou SRC_FILE não definidas no path.env")
 
-USER = Path(user_env)
-DATA_FILE = Path(data_file_env)
-SRC_FILE = Path(src_file_env)
+# USER: se estiver vazio, usa a pasta Downloads do usuário
+if not user_env:
+    USER = Path(os.getenv("USERPROFILE")) / "Downloads"
+else:
+    USER = Path(user_env)
+    if not USER.is_absolute():
+        USER = BASE_DIR / USER
+
+DATA_FILE = (BASE_DIR / data_file_env).resolve()
+SRC_FILE = (BASE_DIR / src_file_env).resolve()
