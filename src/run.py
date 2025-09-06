@@ -12,7 +12,7 @@ def limpar_tela():
 
 def main():
     limpar_tela()
-    YOU = pyfiglet.figlet_format("YOU", font="banner3-D")
+    YOU = pyfiglet.figlet_format("you", font="banner3-D")
     tube = pyfiglet.figlet_format("   tube :", font="banner3-D")
     print(Fore.RED + YOU, Fore.WHITE + tube)
 
