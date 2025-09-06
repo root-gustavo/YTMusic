@@ -29,7 +29,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='Youtube Download',
+    name='Youtube Downloader',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
